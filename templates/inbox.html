@@ -482,7 +482,7 @@
 
 
 <script>
-	let socket = io.connect('https:' + '//' + document.domain + ':' + location.port);
+	let socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 	console.log(socket);
 
 	//Creating the functionalies
