@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.css')}}">
+	<link rel="stylesheet" type="text/css" href="">
+	<script type="text/javascript" src="{{ url_for('static', filename='socket.js') }}"></script>
+</head>
+<body>
+    <br>
+    <form action="#" method="POST">
+        <input id="user_input" type="text" name="user_name" placeholder="Enter your name" required>
+
+        <button type="submit" id="button">send</button>
+        
+    </form>
+
+    <a href="{{ url_for('login') }}">Login here</a>
+</body>

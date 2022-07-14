@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Wisdsom|Signup</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link  rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+
+<style>
+    body{
+        background-color: #419fd9;
+    }
+    .inputf{
+        margin-left: 20%;
+        width: 60%;
+        border: none;
+        
+    }
+    .topin{
+        margin-top: 50px;
+    }
+
+</style>
+
+</head>
+<body>
+
+<!-- -------- -->
+<!-- MAIN APP -->
+<!-- -------- -->
+<div class="mainApp">
+    <h1 style="text-align: center;color: white;">Hi-Chat</h1>
+    <div class="container">
+        <form action="#" method="POST">
+            <h2 class="topin" style="text-align: center;color: #fff;">SIGN UP</h2>
+            <div class="container">
+                {% if get_flashed_messages()[0] == "Phone number already exist" %}
+                    <div class="col-xs-6">
+                        <div class="alert alert-warning alert-dismissible  show" role="alert">{{ get_flashed_messages()[0] }}</div>
+                    </div>
+                {% elif get_flashed_messages()[0] == "Username already exist" %}
+                    <div class="col-xs-6">
+                        <div class="alert alert-warning alert-dismissible  show" role="alert">{{ get_flashed_messages()[0] }}</div>
+                    </div>
+                {% endif %}
+            </div>
+            <input class="searchChats inputf topin" type="search" name="fname" placeholder="Enter Full Name" required/>
+            <input class="searchChats inputf" type="search" name="username" placeholder="Enter Username" required/>
+            <input class="searchChats inputf" style="border: none;" type="password" name="password" placeholder="Enter Password" required/>
+            <input class="searchChats inputf" type="search" name="phoneno" placeholder="Enter Phone Number" required/>
+            <input style="cursor: pointer;" type="submit" class=" btn-success searchChats inputf" value="Signup">
+        </form>
+
+        <br>
+        <div class="searchChats inputf topin" style="padding: 0px;">
+            <span style="color:#555"></span> <a class="" href="{{ url_for('login') }}">Login Here</a>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+

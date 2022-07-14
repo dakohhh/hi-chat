@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Message</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.css')}}">
+	<link rel="stylesheet" type="text/css" href="">
+	<script type="text/javascript" src="{{ url_for('static', filename='socket.js') }}"></script>
+</head>
+<body>
+    <h3>Welcome {{ display_user_name }} your user key is {{ display_user_key }}</h3>
+    <br>
+    {% if recepient == "0" %}
+        <p>You are not texting anyone</p>
+    {% else %}
+        <p>You are texting {{ display_rerecepient_name }}</p>
+    {% endif %}
+    <br>
+	<ul id="message_list">
+        {% if message_chats == None %}
+
+        {% else %}
+            {% for i in  message_chats %}
+                {% if  i[1] == 'sent' %}
+                    <li>You: {{ i[0] }}</li>
+                {% else %}
+                    <li>{{ display_rerecepient_name }}: {{ i[0] }}</li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+	<input id="user_input" type="text" name="text_input" placeholder="Enter your message">
+	<button id="button">send</button>
+
+    <br>
+    <br>
+    <p>Online Users</p>
+    <ul>
+        {% for i in online_users %}
+            {% if i[0] == display_user_name %}
+
+            {% else %}
+                <li><a id="online_list" href="{{ url_for('send_message_part', user=display_user_name, user_key=display_user_key, recepient=i[1]) }}">{{ i[0] }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <br>
+    <p id="error-msg"></p>
+</body>
+<script>
+    let socket = io.connect("http://127.0.0.1:5000/");
+
+
+    let send_button = document.getElementById('button');
+    let user_message = document.getElementById('user_input');
+    let message_list = document.getElementById('message_list');
+    let eror = document.getElementById("error-msg");
+
+
+    let user_key = `{{ display_user_key }}`;
+    let reciepient_key="{{ recepient }}";
+    let eroe_count = 0;
+
+	send_button.addEventListener('click', function(e){
+        if (reciepient_key == "0") {
+            if (eroe_count > 0) {
+                
+            } else {
+                eror.appendChild(document.createTextNode("Error: you are not texting anyone"));
+                eroe_count+= 1;
+            }
+            
+        }
+        else{
+            socket.emit('recieves_message', {
+                sender_key: "{{ display_user_key }}",
+                msg:  user_message.value,
+                r_key: "{{ recepient }}"
+            })
+
+            socket.emit('stores_sent_messages', {
+                sender_key: "{{ display_user_key }}",
+                msg:  user_message.value,
+                r_key: "{{ recepient }}"
+            })
+            let the_another_list = document.createElement('li');
+            the_another_list.appendChild(document.createTextNode(`You: ${user_message.value}`));
+            message_list.appendChild(the_another_list)
+            
+
+
+            user_message.value = "";
+        }
+
+	});
+
+
+
+
+
+    socket.on('connect', function() {
+        console.log("user is connected")
+        socket.emit('is_online', {
+            check: "{{ display_user_name }} is online"
+        })
+    })
+
+    socket.on('recieve_response', function(msg) {
+        if (`${msg.reciepient_key}` == user_key) {
+            console.log(msg.sender)
+            console.log(msg.message)
+            console.log(msg.reciepient_key)
+            
+
+            socket.emit('store_recieving_messages', msg)
+
+            let the_list = document.createElement('li');
+            the_list.appendChild(document.createTextNode(`${msg.sender}: ${msg.message}`));
+            message_list.appendChild(the_list)
+
+
+        }
+
+        
+    })
+
+
+</script>
+</html>

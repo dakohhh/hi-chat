@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Wisdom|Login</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link  rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+
+<style>
+    body{
+        background-color: #419fd9;
+    }
+    .inputf{
+        margin-left: 20%;
+        width: 60%;
+        border-width: 0px;
+        
+    }
+    .topin{
+        margin-top: 50px;
+    }
+
+</style>
+
+</head>
+<body>
+
+<!-- -------- -->
+<!-- MAIN APP -->
+<!-- -------- -->
+<div class="mainApp">
+    <h1 style="text-align: center;color: white;">Hi-Chat</h1>
+    <div class="container">
+        <form action="#" method="POST">
+            <h2 class="topin" style="text-align: center;color: #fff;">Login</h2>
+            {% if get_flashed_messages()[0] == "username_or_password" %}
+                <div class="col-xs-6">
+                    <div class="alert alert-danger" role="alert">Username or password is invalid</div>
+                </div>
+            {% endif %}
+            <input class="searchChats inputf" type="search" name="username" placeholder=" Username" required/>
+            <input class="searchChats inputf" type="password" name="password" placeholder="Password" required/>
+            <input style="cursor: pointer;" type="submit" class=" btn-success searchChats inputf" value="Login">
+        </form>
+    </div>
+</div>
+
+<br>
+<div class="searchChats inputf topin" style="padding: 0px; background-color: #d8e1e8;">
+    <span style="color:#555">Dont have an account?</span> <a class="" href="{{ url_for('home', auth='1') }}">Create one here</a>
+</div>
+
+
+</body>
+</html>
